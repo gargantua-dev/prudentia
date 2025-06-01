@@ -26,11 +26,9 @@ repositories {
 
 dependencies {
     // Spring boot
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.flywaydb:flyway-core'
-
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
     // Database
     runtimeOnly 'org.postgresql:postgresql'
