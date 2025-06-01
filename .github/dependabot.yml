@@ -21,7 +21,6 @@ updates:
         patterns:
           - "*test*"
           - "*junit*"
-    ignore:
 
   # docker (includes both Dockerfile and docker-compose files)
   - package-ecosystem: "docker"
