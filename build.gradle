@@ -3,45 +3,48 @@ plugins {
     id 'org.springframework.boot' version '3.5.0'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'org.graalvm.buildtools.native' version '0.10.6'
+    id 'jacoco'
 }
 
 group = 'dev.gargantua'
 version = '0.0.1-SNAPSHOT'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
+java { toolchain { languageVersion = JavaLanguageVersion.of(21) } }
+jacoco { toolVersion = '0.8.13' }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
-repositories {
-    mavenCentral()
-}
+configurations { compileOnly { extendsFrom annotationProcessor } }
+repositories { mavenCentral() }
 
 dependencies {
     // Spring boot
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.flywaydb:flyway-core'
 
     // Database
+    implementation 'org.flywaydb:flyway-core'
     runtimeOnly 'org.postgresql:postgresql'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Tests and Code Coverage
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Test
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+tasks.named('test', Test).configure { Test test ->
+    test.useJUnitPlatform() // Use JUnit Platform for testing
+    test.finalizedBy jacocoTestReport // Generate JaCoCo report after tests
+}
+
+// Configure the JaCoCo plugin to generate code coverage reports
+tasks.named('jacocoTestReport', JacocoReport).configure { JacocoReport jacocoTestReport ->
+    jacocoTestReport.dependsOn(tasks.named('test'))
+    jacocoTestReport.reports {
+        xml.required = true
+        html.required = true
+        csv.required = true
+        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+    }
 }
