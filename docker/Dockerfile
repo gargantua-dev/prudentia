@@ -1,5 +1,5 @@
 # Build stage
-FROM gradle:8.14.1-jdk21-alpine AS build
+FROM gradle:8.14.2-jdk21-alpine AS build
 WORKDIR /app
 
 # Copy only gradle files first for better caching
