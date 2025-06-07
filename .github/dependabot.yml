@@ -10,9 +10,10 @@ updates:
       - "dependencies"
       - "gradle"
     commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
-      include: "scope"
+      prefix: "chore"
+      scope: "deps"
+      prefix-development: "chore"
+      scope-development: "deps-dev"
     groups:
       spring-framework:
         patterns:
@@ -24,7 +25,7 @@ updates:
 
   # docker (includes both Dockerfile and docker-compose files)
   - package-ecosystem: "docker"
-    directory: "/docker"
+    directory: "/"
     schedule:
       interval: "daily"
       timezone: "America/Sao_Paulo"
@@ -32,5 +33,5 @@ updates:
       - "dependencies"
       - "docker"
     commit-message:
-      prefix: "chore(docker)"
-      include: "scope"
+      prefix: "chore"
+      scope: "docker"
